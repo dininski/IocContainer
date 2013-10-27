@@ -23,7 +23,9 @@
             this.dependencies = new Dictionary<Type, Type>();
         }
 
-        public void RegisterDependency(Type dependency, Type classToResolve)
+        public void RegisterDependency<TDependencyType, TResolveType>(TDependencyType dependency, TResolveType classToResolve)
+            where TDependencyType : Type
+            where TResolveType : Type
         {
             this.dependencies.Add(dependency, classToResolve);
         }
