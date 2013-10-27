@@ -6,7 +6,7 @@
 
     public class Container
     {
-        private IDictionary<Type, Type> dependecies;
+        private IDictionary<Type, Type> dependencies;
 
         private ContainerOptions options;
 
@@ -20,12 +20,12 @@
         public Container(ContainerOptions options)
         {
             this.options = options;
-            this.dependecies = new Dictionary<Type, Type>();
+            this.dependencies = new Dictionary<Type, Type>();
         }
 
         public void RegisterDependency(Type dependency, Type classToResolve)
         {
-            this.dependecies.Add(dependency, classToResolve);
+            this.dependencies.Add(dependency, classToResolve);
         }
 
         public T Resolve<T>() where T : class
@@ -75,13 +75,19 @@
 
                         if (parameterType.IsAbstract || parameterType.IsInterface)
                         {
-                            //TODO: review and check if the binding flags are persisting along the way
-                            var concreteObjectType = this.dependecies[parameterType];
+                            var concreteObjectType = this.dependencies[parameterType];
                             var method =
                                 typeof(Container)
                                     .GetMethod("Resolve")
                                     .MakeGenericMethod(concreteObjectType);
+
                             var obj = method.Invoke(this, null);
+
+                            parameterObjects.Add(obj);
+                        }
+                        else if (parameterType.IsPrimitive || parameterType.GetConstructors().Any(x => !x.GetParameters().Any()))
+                        {
+                            var obj = Activator.CreateInstance(parameterType);
                             parameterObjects.Add(obj);
                         }
                     }

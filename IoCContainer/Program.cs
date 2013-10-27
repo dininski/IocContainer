@@ -11,15 +11,10 @@ namespace IoCContainer
     {
         static void Main(string[] args)
         {
-            var ct = new Container();
-            ct.RegisterDependency(typeof(IPowerSource), typeof(PowerOutlet));
+            var ct = new Container(ContainerOptions.UseDefaultValue);
+            ct.RegisterDependency(typeof(IPowerSource), typeof(Test));
             var laptop1 = ct.Resolve<Laptop>();
             laptop1.DisplayPower();
-
-            var ct2 = new Container();
-            ct2.RegisterDependency(typeof(IPowerSource), typeof(Battery));
-            var laptop2 = ct2.Resolve<Laptop>();
-            laptop2.DisplayPower();
         }
     }
 
@@ -41,6 +36,21 @@ namespace IoCContainer
         public int GetPower()
         {
             return 100000;
+        }
+    }
+
+    public class Test : IPowerSource
+    {
+        public int test { get; set; }
+
+        public Test(int test)
+        {
+            this.test = test;
+        }
+
+        public int GetPower()
+        {
+            return test;
         }
     }
 
