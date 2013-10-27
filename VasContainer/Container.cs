@@ -86,12 +86,17 @@
                         }
                     }
 
+                    if (parameterObjects.Count != constructor.GetParameters().Length)
+                    {
+                        continue;
+                    }
+
                     var createdObject = (T)Activator.CreateInstance(classType, parameterObjects.ToArray());
                     return createdObject;
                 }
             }
 
-            throw new NotImplementedException();
+            throw new Exception("Could not resolve the dependency");
         }
     }
 }
