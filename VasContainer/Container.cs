@@ -1,5 +1,4 @@
-﻿
-namespace VasContainer
+﻿namespace VasContainer
 {
     using System;
     using System.Collections.Generic;
@@ -49,6 +48,7 @@ namespace VasContainer
                 // get the constructor parameters
                 var parameters = constructor.GetParameters();
 
+                // if the constructor has no parameters - instantiate the object and return it;
                 if (parameters.Length == 0)
                 {
                     var result = Activator.CreateInstance<T>();
@@ -61,7 +61,6 @@ namespace VasContainer
                     foreach (var parameter in parameters)
                     {
                         var parameterType = parameter.ParameterType;
-                        var parameterConstructors = parameterType.GetConstructors();
 
                         if (this.options.HasFlag(ContainerOptions.UseDefaultValue))
                         {

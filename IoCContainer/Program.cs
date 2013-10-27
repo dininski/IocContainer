@@ -13,7 +13,13 @@ namespace IoCContainer
         {
             var ct = new Container();
             ct.RegisterDependency(typeof(IPowerSource), typeof(PowerOutlet));
-            ct.Resolve<Laptop>().DisplayPower();
+            var laptop1 = ct.Resolve<Laptop>();
+            laptop1.DisplayPower();
+
+            var ct2 = new Container();
+            ct2.RegisterDependency(typeof(IPowerSource), typeof(Battery));
+            var laptop2 = ct2.Resolve<Laptop>();
+            laptop2.DisplayPower();
         }
     }
 
