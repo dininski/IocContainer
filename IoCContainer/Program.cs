@@ -12,7 +12,7 @@ namespace IoCContainer
         static void Main(string[] args)
         {
             var ct = new Container(ContainerOptions.UseDefaultValue);
-            ct.RegisterDependency(typeof(IPowerSource), typeof(Test));
+            ct.RegisterType<IPowerSource, Battery>();
             var laptop1 = ct.Resolve<Laptop>();
             laptop1.DisplayPower();
         }

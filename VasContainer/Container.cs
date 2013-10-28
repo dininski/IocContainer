@@ -23,11 +23,11 @@
             this.dependencies = new Dictionary<Type, Type>();
         }
 
-        public void RegisterDependency<TDependencyType, TResolveType>(TDependencyType dependency, TResolveType classToResolve)
-            where TDependencyType : Type
-            where TResolveType : Type
+        public void RegisterType<TDependencyType, TResolveType>()
+            where TDependencyType : class
+            where TResolveType : class
         {
-            this.dependencies.Add(dependency, classToResolve);
+            this.dependencies.Add(typeof(TDependencyType), typeof(TResolveType));
         }
 
         public T Resolve<T>() where T : class
